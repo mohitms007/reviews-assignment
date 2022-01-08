@@ -4,10 +4,23 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+import { ChakraProvider, extendTheme } from '@chakra-ui/react'
+import "@fontsource/inter"
+
+const theme = extendTheme({
+  fonts: {
+    heading: 'Inter',
+    body: 'inter',
+  },
+
+})
+
+
+
 ReactDOM.render(
-  <React.StrictMode>
+  <ChakraProvider theme={theme}>
     <App />
-  </React.StrictMode>,
+  </ChakraProvider>,
   document.getElementById('root')
 );
 
