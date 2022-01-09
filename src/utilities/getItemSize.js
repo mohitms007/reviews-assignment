@@ -1,17 +1,39 @@
-export default (index,width,reviews) => { 
-  console.log(width)
+const getItemSize = (index,width,reviews) => { 
+
   let responsiveItem;
   switch(true) {
     case (width > 1000):
-      responsiveItem = 0.2;
+      responsiveItem = 0.3;
       break;
     case (width < 1000 && width > 700):
-      responsiveItem = 0.5
+      responsiveItem = 0.4
       break;
     case(width <= 700):
-      responsiveItem = 0.7
+      responsiveItem = 0.6
       break; 
   }
-  console.log(responsiveItem)
-  return Math.floor(responsiveItem * (reviews[index].reviewText.length * 5)) + 130
+  
+  return Math.floor(responsiveItem * 300 * 2) + 130
 }
+
+
+export const getItemWidth = (index, width, reviews) => {
+
+  let responsiveItem;
+  switch(true) {
+    case (width > 1000):
+      responsiveItem = 580;
+      break;
+    case (width < 1000 && width > 700):
+      responsiveItem = 450
+      break;
+    case(width <= 700):
+      responsiveItem = 350
+      break; 
+  }
+  
+  return responsiveItem
+}
+
+
+export default getItemSize

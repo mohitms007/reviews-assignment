@@ -1,7 +1,7 @@
 import Navbar from "./components/Navbar";
 import ReviewsList from "./components/ReviewList/ReviewsList";
 import { BrowserRouter as Router, Navigate, Route, Routes } from "react-router-dom";
-import HomePage from './components/Hompage'
+import HomePage from './components/Homepage'
 
 function App() {
   return (

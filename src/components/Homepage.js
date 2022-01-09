@@ -7,6 +7,7 @@ import {
   Text,
   useBreakpointValue,
 } from '@chakra-ui/react';
+import { Link } from 'react-router-dom';
 import Stats from './Stats'
 
 export default function HomePage() {
@@ -40,6 +41,7 @@ export default function HomePage() {
             Get the perfect feedback for your product here.
           </Text>
           <Stack direction={{ base: 'column', md: 'row' }} spacing={4}>
+            <Link to="/reviews">
             <Button
               rounded={'full'}
               bg={'pink.300'}
@@ -49,7 +51,8 @@ export default function HomePage() {
               }}>
               Go to Product Reviews
             </Button>
-            <Button rounded={'full'}>Product Stats</Button>
+              </Link>
+            <a href="#stats"><Button rounded={'full'}>Product Stats</Button></a>
           </Stack>
         </Stack>
       </Flex>

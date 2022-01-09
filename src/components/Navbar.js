@@ -8,14 +8,9 @@ import {
   Button,
   Menu,
   MenuButton,
-  MenuList,
-  MenuItem,
-  MenuDivider,
   useDisclosure,
   useColorModeValue,
   Stack,
-  Image,
-  Text,
   Link,
 } from "@chakra-ui/react";
 
@@ -52,7 +47,7 @@ const NavLink = ({ children, link }) => {
         bg: useColorModeValue("gray.200", "gray.700"),
       }}
     >
-      {getRoute(link,children)}
+      {getRoute(link, children)}
     </Link>
   );
 };
@@ -72,7 +67,9 @@ export default function Navbar() {
             onClick={isOpen ? onClose : onOpen}
           />
           <HStack spacing={4} alignItems={"center"}>
-            <Logo />
+            <Navigate to="/">
+              <Logo />
+            </Navigate>
           </HStack>
           <Flex alignItems={"center"}>
             <HStack

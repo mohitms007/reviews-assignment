@@ -1,7 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import intialReviews from "../../reviews.json";
 import Review from "../Review";
-import { ArrowDownIcon, ArrowUpIcon, RepeatClockIcon, Search2Icon } from "@chakra-ui/icons";
+import {
+  ArrowDownIcon,
+  ArrowUpIcon,
+  RepeatClockIcon,
+  Search2Icon,
+} from "@chakra-ui/icons";
 import { List, WindowScroller } from "react-virtualized";
 import {
   Box,
@@ -10,7 +15,6 @@ import {
   chakra,
   Checkbox,
   Container,
-  FormControl,
   HStack,
   Input,
   InputGroup,
@@ -20,7 +24,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import "./review-list.css";
-import getItemSize from "../../utilities/getItemSize";
+import getItemSize, { getItemWidth } from "../../utilities/getItemSize";
 
 export default function ReviewsList() {
   const [reviews, setReviews] = useState(intialReviews);
@@ -34,9 +38,9 @@ export default function ReviewsList() {
   const Row = ({ index, style }) => {
     const currReview = reviews[index];
     return (
-      <div key={index} style={{ ...style }}>
+      <div key={index} style={style}>
         <Review
-          style={{ margin: "0px 50px" }}
+          style={{ margin: "50px 50px" }}
           review={currReview}
           highlightBad={isHighlightBadReviewsOn}
           highlightGood={isHighlightGoodReviewsOn}
@@ -60,7 +64,7 @@ export default function ReviewsList() {
     const filteredReviews = await reviews.filter((review) => {
       if (
         review.summary?.includes(searchItem) ||
-        review.overall == parseInt(searchItem) ||
+        review.overall === parseInt(searchItem) ||
         review.reviewText?.includes(searchItem)
       ) {
         return review;
@@ -138,7 +142,7 @@ export default function ReviewsList() {
 
                 <InputRightElement width="4.5rem">
                   <Button mt="0.4rem" size="sm" onClick={filterReviews}>
-                     <Search2Icon color='pink.400'/>
+                    <Search2Icon color="pink.400" />
                   </Button>
                 </InputRightElement>
               </InputGroup>
@@ -198,7 +202,9 @@ export default function ReviewsList() {
                   size="lg"
                   colorScheme="pink"
                 >
-                  <Text color='gray.600' size='md'>Highlight Critical Reviews</Text>
+                  <Text color="gray.600" size="md">
+                    Highlight Critical Reviews
+                  </Text>
                 </Checkbox>
                 <Checkbox
                   isChecked={isHighlightGoodReviewsOn}
@@ -208,25 +214,29 @@ export default function ReviewsList() {
                   size="lg"
                   colorScheme="green"
                 >
-                  <Text color='gray.600' size='md'>Highlight Great Reviews</Text>
+                  <Text color="gray.600" size="md">
+                    Highlight Great Reviews
+                  </Text>
                 </Checkbox>
               </Stack>
             </Box>
 
-            <WindowScroller>
-              {({ height, isScrolling, scrollTop, width }) => (
-                <List
-                  autoHeight
-                  height={height}
-                  isScrolling={isScrolling}
-                  rowCount={reviews.length}
-                  rowHeight={({ index }) => getItemSize(index, width, reviews)}
-                  rowRenderer={Row}
-                  scrollTop={scrollTop}
-                  width={480}
-                />
-              )}
-            </WindowScroller>
+            <Box width={'90%'}>
+              <WindowScroller>
+                {({ height, isScrolling, scrollTop, width }) => (
+                  <List
+                    autoHeight
+                    height={height}
+                    isScrolling={isScrolling}
+                    rowCount={reviews.length}
+                    rowHeight={({ index }) => getItemSize(index, width, reviews)}
+                    rowRenderer={Row}
+                    scrollTop={scrollTop}
+                    width={width > 1000 ? 580 : 320}
+                  />
+                )}
+              </WindowScroller>
+            </Box>
           </Box>
         </Center>
       ) : (
