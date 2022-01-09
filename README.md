@@ -1,70 +1,35 @@
-# Getting Started with Create React App
+# Reviews Finder
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A tool for companies to look at their Amazon reviews and find out what their users are saying.
 
-## Available Scripts
+## Description
 
-In the project directory, you can run:
+We are trying to render 10000 reviews at once without pagination. We can use concept of a window which only render those components which are currently in the window which can be of any specified height and width and destroy all components which aren't. We use React Virtualized for this which implements this idea.
 
-### `npm start`
+## Getting Started
+npm install && npm start
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Dependencies
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+* React
+* Chakra UI (dependencies: Framer Motion and emoticon) and Semantic UI
+* React Virtualized
+* React Router
 
-### `npm test`
+### Features
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- [x] Allow the company to view all reviews at once (without pagination)
+- [x] Search through the reviews
+- [x] Filter the entire list of reviews to find the good and the bad ones.
+- [x] Allow the user to set up conditional formatting rules
+- [x] Provide a summary of all the reviews to the company without looking at the data.
 
-### `npm run build`
+### Extra Features
+- [x] Tried to make a well performant and good looking application.
+- [x] It is mobile responsive as well (Please refresh the application after changing viewports to get a perfect look).
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### More Features that can be added
+* Adding More Filters
+* Adding more conditional formatting rules
+* Fix bugs if any
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
