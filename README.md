@@ -33,3 +33,8 @@ npm install && npm start
 * Adding more conditional formatting rules
 * Fix bugs if any
 
+
+![Screenshot from 2022-01-09 19-19-30](https://user-images.githubusercontent.com/55339354/148685036-61b58a80-6074-4c3e-9447-d78f42af5043.png)
+![Screenshot from 2022-01-09 19-19-50](https://user-images.githubusercontent.com/55339354/148685041-809f4498-93b0-424b-b989-3568081e3621.png)
+![Screenshot from 2022-01-09 19-20-15](https://user-images.githubusercontent.com/55339354/148685047-f466fae8-65a5-47bc-a8dc-6a1f02184f33.png)
+
