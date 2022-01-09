@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import intialReviews from "../../reviews.json";
-import Review from "../Review";
+import intialReviews from "../reviews.json";
+
 import {
   ArrowDownIcon,
   ArrowUpIcon,
   RepeatClockIcon,
   Search2Icon,
 } from "@chakra-ui/icons";
-import { List, WindowScroller } from "react-virtualized";
+
 import {
   Box,
   Button,
@@ -23,31 +23,14 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import "./review-list.css";
-import getItemSize, { getItemWidth } from "../../utilities/getItemSize";
+
+import { Reviews } from "./Reviews";
 
 export default function ReviewsList() {
   const [reviews, setReviews] = useState(intialReviews);
   const [searchItem, setSearchItem] = useState("");
   const [filterRating, setFilterRating] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [isHighlightBadReviewsOn, setIsHighlightBadReviewsOn] = useState(false);
-  const [isHighlightGoodReviewsOn, setIsHighlightGoodReviewsOn] =
-    useState(false);
-
-  const Row = ({ index, style }) => {
-    const currReview = reviews[index];
-    return (
-      <div key={index} style={style}>
-        <Review
-          style={{ margin: "50px 50px" }}
-          review={currReview}
-          highlightBad={isHighlightBadReviewsOn}
-          highlightGood={isHighlightGoodReviewsOn}
-        />{" "}
-      </div>
-    );
-  };
 
   const onChangeSearchItem = (e) => {
     setSearchItem(e.target.value);
@@ -56,6 +39,8 @@ export default function ReviewsList() {
     }
   };
 
+
+  // Filtering Reviews based on the Search Term
   const filterReviews = async () => {
     if (!searchItem) {
       return;
@@ -77,6 +62,9 @@ export default function ReviewsList() {
       setLoading(false);
     }, 600);
   };
+
+
+  // Filtering through product ratings 
 
   const filterByRating = async (type) => {
     setLoading(true);
@@ -102,6 +90,9 @@ export default function ReviewsList() {
 
     setFilterRating(true);
   };
+
+
+  // Clearing all the filters and setting intial state.
 
   const clearFilters = () => {
     setReviews(intialReviews);
@@ -179,66 +170,9 @@ export default function ReviewsList() {
           </Box>
         </Center>
       </Container>
-
+    <Box minH={500}>
       {!loading ? (
-        <Center bg={"gray.100"}>
-          <Box>
-            <Box padding={"20px 10px"}>
-              <chakra.span
-                marginTop={"15px"}
-                fontSize={["2xl", "3xl", "3xl", "4xl"]}
-                bgGradient="linear(to-l, #7928CA, #FF0080)"
-                bgClip="text"
-                fontWeight="extrabold"
-              >
-                Reviews
-              </chakra.span>
-              <Stack direction={["column", "row"]} marginTop={4} spacing={6}>
-                <Checkbox
-                  isChecked={isHighlightBadReviewsOn}
-                  onChange={() =>
-                    setIsHighlightBadReviewsOn(!isHighlightBadReviewsOn)
-                  }
-                  size="lg"
-                  colorScheme="pink"
-                >
-                  <Text color="gray.600" size="md">
-                    Highlight Critical Reviews
-                  </Text>
-                </Checkbox>
-                <Checkbox
-                  isChecked={isHighlightGoodReviewsOn}
-                  onChange={() =>
-                    setIsHighlightGoodReviewsOn(!isHighlightGoodReviewsOn)
-                  }
-                  size="lg"
-                  colorScheme="green"
-                >
-                  <Text color="gray.600" size="md">
-                    Highlight Great Reviews
-                  </Text>
-                </Checkbox>
-              </Stack>
-            </Box>
-
-            <Box width={'90%'}>
-              <WindowScroller>
-                {({ height, isScrolling, scrollTop, width }) => (
-                  <List
-                    autoHeight
-                    height={height}
-                    isScrolling={isScrolling}
-                    rowCount={reviews.length}
-                    rowHeight={({ index }) => getItemSize(index, width, reviews)}
-                    rowRenderer={Row}
-                    scrollTop={scrollTop}
-                    width={width > 1000 ? 580 : 320}
-                  />
-                )}
-              </WindowScroller>
-            </Box>
-          </Box>
-        </Center>
+        <Reviews reviews={reviews} />
       ) : (
         <Center>
           <Spinner
@@ -250,6 +184,7 @@ export default function ReviewsList() {
           />
         </Center>
       )}
+      </Box>
     </>
   );
 }

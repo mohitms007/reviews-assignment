@@ -25,9 +25,9 @@ const Links = [
 
 const getRoute = (link, children) => {
   if (link.name === "statistics") {
-    return <a href={"/#stats"}> {children} </a>;
+    return <a href={"/#stats"}> {link.name[0].toUpperCase() + link.name.substr(1)} </a>;
   } else {
-    return <Navigate to={"/" + link.name}> {children} </Navigate>;
+    return <Navigate to={"/" + link.name}> {link.name[0].toUpperCase() + link.name.substr(1)} </Navigate>;
   }
 };
 

@@ -27,6 +27,8 @@ export default function Review({ review, highlightBad, highlightGood }) {
   const { reviewText, reviewerName, summary, reviewTime, overall } = review;
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+
+  //  Highlighting reviews based on ratings and checkbox
   const hightlightReviews = () => {
     if (highlightBad && review.overall <= 3) {
       return "red.400";
@@ -96,8 +98,7 @@ export default function Review({ review, highlightBad, highlightGood }) {
         </Button>
       </Stack>
 
-  
-      <Modal isOpen={isOpen} onClose={onClose} isCentered>
+      <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <Text
@@ -105,7 +106,7 @@ export default function Review({ review, highlightBad, highlightGood }) {
             textTransform={"uppercase"}
             fontWeight={800}
             fontSize={"sm"}
-            p={4}
+            pt={6}
             pl={6}
             pb={2}
             letterSpacing={1.1}
@@ -116,8 +117,8 @@ export default function Review({ review, highlightBad, highlightGood }) {
           <ModalCloseButton />
           <ModalBody>{reviewText}</ModalBody>
           <Stack
-            mt={6}
-            pl={6}
+            pl={[0,6]}
+            pt={4}
             direction={["column", "row"]}
             spacing={4}
             align={["center", ""]}

@@ -1,5 +1,8 @@
 import reviews from "../reviews.json";
 
+
+
+// Get average review rating of the product
 export const getAverageRating = () => {
   const sum_of_ratings = reviews
     .map((review) => review.overall)
@@ -12,6 +15,8 @@ export const getTotalReviews = () => {
   return reviews.length;
 };
 
+
+// Get how many percentage of users liked the product
 export const getUserLiked = () => {
   const usersLiked = reviews
     .map((review) => {
@@ -27,7 +32,7 @@ export const getUserLiked = () => {
 
 
 
-
+// get one star reviews in the product
 export const getOneStarRatings = () => {
   const usersDisLiked = reviews
     .map((review) => {

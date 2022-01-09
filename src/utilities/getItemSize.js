@@ -1,3 +1,6 @@
+
+// Getting the size of each item so that we can render it responsively and for react virtualize to understand every item's height so that it can easily render large items 
+
 const getItemSize = (index,width,reviews) => { 
 
   let responsiveItem;
@@ -14,25 +17,6 @@ const getItemSize = (index,width,reviews) => {
   }
   
   return Math.floor(responsiveItem * 300 * 2) + 130
-}
-
-
-export const getItemWidth = (index, width, reviews) => {
-
-  let responsiveItem;
-  switch(true) {
-    case (width > 1000):
-      responsiveItem = 580;
-      break;
-    case (width < 1000 && width > 700):
-      responsiveItem = 450
-      break;
-    case(width <= 700):
-      responsiveItem = 350
-      break; 
-  }
-  
-  return responsiveItem
 }
 
 
