@@ -1,40 +1,64 @@
-import React from 'react'
-import { Comment, Icon, Segment } from 'semantic-ui-react'
+import {
+  Avatar,
+  background,
+  Box,
+  Center,
+  chakra,
+  Flex,
+  Heading,
+  Icon,
+  Image,
+  Stack,
+  Text,
+  useColorMode,
+  useColorModeValue,
+} from "@chakra-ui/react";
+import React from "react";
+import { StarIcon } from "@chakra-ui/icons";
+import formatDate from "../utilities/formatDate";
 
-export default function Review({review}) {
-
-  // "07 9, 2013"
-  const formatDate = (date) => {
-    console.log(date.substr(6,8))
-    let parsedDate;
-    if(date.length > 10) {
-      parsedDate = date.substr(2,3) + "-" + date.substr(0,2) + "-"  + date.substr(6,8).trim()
-    }else {
-      parsedDate = "0" + date.substr(2,2).trim() + "-" + date.substr(0,2) +"-"+  date.substr(6,8).trim()
-    }
-    return parsedDate.trim()
-   
-  }
+export default function Review({ review }) {
+  const { reviewText, reviewerName, summary, reviewTime, overall } = review;
 
   return (
-    <Segment>
-    <Comment.Group>
-    <Comment>
-      <Comment.Avatar as='a' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRREoQIZQcg466NHdz_09NOWOUEYq0mrvyPdg&usqp=CAU' />
-      <Comment.Content>
-        <Comment.Author>{review.reviewerName}</Comment.Author>
-        <Comment.Metadata>
-          <div>{formatDate(review.reviewTime)}</div>
-          <div>
-            Rating: {review.overall}{" "}<Icon name='star' />
-          </div>
-        </Comment.Metadata>
-        <Comment.Text>
-          {review.reviewText}
-        </Comment.Text>
-      </Comment.Content>
-    </Comment>
-  </Comment.Group>
-  </Segment>
-  )
+    <Box
+      // maxW={'505px'}
+      w={"full"}
+      bg={useColorModeValue("white", "gray.900")}
+      boxShadow={"xl"}
+      rounded={"md"}
+      p={6}
+      overflow={"hidden"}
+    >
+      <Stack>
+        <Text
+          color={"green.500"}
+          textTransform={"uppercase"}
+          fontWeight={800}
+          fontSize={"sm"}
+          letterSpacing={1.1}
+        >
+          {overall} ratings <StarIcon marginBottom={1} />
+        </Text>
+        <Heading
+          color={useColorModeValue("gray.700", "white")}
+          fontSize={"2xl"}
+          fontFamily={"body"}
+        >
+          {summary}
+        </Heading>
+        <Text color={"gray.500"}>{reviewText}</Text>
+      </Stack>
+      <Stack mt={6} direction={"row"} spacing={4} align={"center"}>
+        <Avatar
+          src={"https://avatars0.githubusercontent.com/u/1164541?v=4"}
+          alt={"Author"}
+        />
+        <Stack direction={"column"} spacing={0} fontSize={"sm"}>
+          <Text fontWeight={600}>{reviewerName}</Text>
+          <Text color={"gray.500"}>{formatDate(reviewTime)}</Text>
+        </Stack>
+      </Stack>
+    </Box>
+  );
 }

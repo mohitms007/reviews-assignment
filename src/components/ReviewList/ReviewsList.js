@@ -1,46 +1,115 @@
-import React from "react";
-import reviews from "../../reviews.json";
-import { VariableSizeList as List } from "react-window";
-import AutoSizer from "react-virtualized-auto-sizer";
+import React, { useEffect, useState } from "react";
+import intialReviews from "../../reviews.json";
 import Review from "../Review";
-import { SearchIcon } from "@chakra-ui/icons";
+import { ArrowDownIcon, ArrowUpIcon, RepeatClockIcon } from "@chakra-ui/icons";
+import { List, WindowScroller } from "react-virtualized";
 import {
   Box,
+  Button,
   Center,
   chakra,
+  Checkbox,
   Container,
+  HStack,
   Input,
   InputGroup,
   InputRightElement,
+  Spinner,
+  Stack,
   Text,
 } from "@chakra-ui/react";
 import "./review-list.css";
-
-const Row = ({ data, index, style }) => {
-  const currReview = data[index];
-
-  return (
-    <div style={style}>
-      <Review review={currReview} />
-    </div>
-  );
-};
+import getItemSize from "../../utilities/getItemSize";
 
 export default function ReviewsList() {
-  // Checking how much long is the review
-  const getItemSize = (index) =>
-    Math.floor(0.2 * reviews[index].reviewText.length) + 130;
+  const [reviews, setReviews] = useState(intialReviews);
+  const [searchItem, setSearchItem] = useState("");
+  const [filterRating, setFilterRating] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const Row = ({ index, style }) => {
+    const currReview = reviews[index];
+    return (
+      <div key={index} style={{ ...style }}>
+        <Review style={{ margin: "0px 50px" }} review={currReview} />{" "}
+      </div>
+    );
+  };
+
+  const onChangeSearchItem = (e) => {
+    setSearchItem(e.target.value);
+    if (!e.target.value) {
+      setReviews(intialReviews);
+    }
+  };
+
+  const filterReviews = async () => {
+    console.log(searchItem);
+    if (!searchItem) {
+      return;
+    }
+    setLoading(true);
+    const filteredReviews = await reviews.filter((review) => {
+      if (
+        review.summary?.includes(searchItem) ||
+        review.overall == parseInt(searchItem) ||
+        review.reviewText?.includes(searchItem)
+      ) {
+        return review;
+      } else {
+        return null;
+      }
+    });
+    setReviews(filteredReviews);
+    setTimeout(() => {
+      setLoading(false);
+    }, 600);
+  };
+
+  const filterByRating = async (type) => {
+    setLoading(true);
+    const filteredReviews = await intialReviews.filter((review) => {
+      if (type) {
+        if (review.overall === 5) {
+          return review;
+        } else {
+          return null;
+        }
+      } else {
+        if (review.overall <= 3) {
+          return review;
+        } else {
+          return null;
+        }
+      }
+    });
+    setReviews(filteredReviews);
+    setTimeout(() => {
+      setLoading(false);
+    }, 600);
+
+    setFilterRating(true);
+  };
+
+  const clearFilters = () => {
+    setReviews(intialReviews);
+    setFilterRating(false);
+  };
 
   return (
-<>
-      <Container  w={['sm', 'md', 'lg', 'xl']} maxH="2xl" centerContent>
+    <>
+      <Container w={["sm", "md", "lg", "xl"]} maxH="2xl" centerContent>
         <Center height={450}>
           <Box justifyContent="center" textAlign="center">
-            <Text fontWeight={"bold"} fontSize={['2xl', '3xl', '4xl', '6xl']} color="gray.600">
+            <Text
+              fontWeight={"bold"}
+              fontSize={["2xl", "3xl", "4xl", "6xl"]}
+              color="gray.600"
+            >
               Find The Best
               <chakra.span
-                padding={[2,2,3,5]}
-                fontSize={['2xl', '3xl', '4xl', '6xl']}
+                padding={[2, 2, 3, 5]}
+                fontSize={["2xl", "3xl", "4xl", "6xl"]}
                 bgGradient="linear(to-l, #7928CA, #FF0080)"
                 bgClip="text"
                 fontWeight="extrabold"
@@ -48,50 +117,97 @@ export default function ReviewsList() {
                 Reviews
               </chakra.span>
             </Text>
-            <Center mt={55} alignItems={'center'}>
-              <InputGroup w={['sm', 'md', 'lg', 'xl']}>
-                <InputRightElement
-                  pointerEvents="none"
-                  children={<SearchIcon mt={1} color="pink.300" />}
-                />
-                <Input
-                  placeholder="Search for Reviews"
-                  size="lg"
-                  _focus={{borderWidth: '2px',borderColor: 'pink.400'}}
-                  boxShadow={"lg"}
-                />
-              </InputGroup>
+            <Center mt={55} alignItems={"center"}>
+              <Input
+                placeholder="Search for Reviews"
+                size="lg"
+                values={searchItem}
+                onChange={onChangeSearchItem}
+                _focus={{ borderWidth: "2px", borderColor: "pink.400" }}
+                boxShadow={"lg"}
+              />
+              <Button onClick={filterReviews} mt={1} color="pink.300">
+                Search{" "}
+              </Button>
+            </Center>
+            <Center margin={12}>
+              <HStack spacing={8}>
+                <Button
+                  onClick={() => filterByRating(1)}
+                  colorScheme="teal"
+                  rightIcon={<ArrowUpIcon />}
+                >
+                  Top Reviews
+                </Button>
+                <Button
+                  onClick={() => filterByRating(0)}
+                  colorScheme="pink"
+                  rightIcon={<ArrowDownIcon />}
+                >
+                  Bad Reviews
+                </Button>
+              </HStack>
+            </Center>
+            <Center>
+              {filterRating && (
+                <Button
+                  onClick={clearFilters}
+                  colorScheme="gray"
+                  rightIcon={<RepeatClockIcon />}
+                >
+                  Clear Filters
+                </Button>
+              )}
             </Center>
           </Box>
         </Center>
-     
-
       </Container>
-    
-    <div
-    style={{
-      height: "60vh",
-      width: "80vw",
-      display: "flex",
-      flex: 1,
-      marginLeft: "10%",
-    }}
-  >
-    <AutoSizer>
-      {({ height, width }) => (
-        <List
-          className="List"
-          height={700}
-          itemCount={reviews.length}
-          itemData={reviews}
-          itemSize={getItemSize}
-          width={width}
-        >
-          {Row}
-        </List>
+
+      {!loading ? (
+        <Center bg={"gray.100"}>
+          <Box>
+            <Box padding={"20px 10px"}>
+              <chakra.span
+                marginTop={"15px"}
+                fontSize={["2xl", "3xl", "3xl", "4xl"]}
+                bgGradient="linear(to-l, #7928CA, #FF0080)"
+                bgClip="text"
+                fontWeight="extrabold"
+              >
+                Reviews
+              </chakra.span>
+              <HStack>
+
+              </HStack>
+            </Box>
+
+            <WindowScroller>
+              {({ height, isScrolling, scrollTop, width }) => (
+                <List
+                  autoHeight
+                  height={height}
+                  isScrolling={isScrolling}
+                  rowCount={reviews.length}
+                  rowHeight={({ index }) => getItemSize(index, width, reviews)}
+                  rowRenderer={Row}
+                  scrollTop={scrollTop}
+                  width={480}
+                />
+              )}
+            </WindowScroller>
+          </Box>
+        </Center>
+      ) : (
+        <Center>
+          <Spinner
+            thickness="4px"
+            speed="0.65s"
+            emptyColor="gray.200"
+            color="pink.500"
+            size="xl"
+          />
+        </Center>
       )}
-    </AutoSizer>
-  </div>
-  </>
+    </>
   );
 }
