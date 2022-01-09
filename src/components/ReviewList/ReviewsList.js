@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import intialReviews from "../../reviews.json";
 import Review from "../Review";
-import { ArrowDownIcon, ArrowUpIcon, RepeatClockIcon } from "@chakra-ui/icons";
+import { ArrowDownIcon, ArrowUpIcon, RepeatClockIcon, Search2Icon } from "@chakra-ui/icons";
 import { List, WindowScroller } from "react-virtualized";
 import {
   Box,
@@ -10,6 +10,7 @@ import {
   chakra,
   Checkbox,
   Container,
+  FormControl,
   HStack,
   Input,
   InputGroup,
@@ -26,12 +27,20 @@ export default function ReviewsList() {
   const [searchItem, setSearchItem] = useState("");
   const [filterRating, setFilterRating] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isHighlightBadReviewsOn, setIsHighlightBadReviewsOn] = useState(false);
+  const [isHighlightGoodReviewsOn, setIsHighlightGoodReviewsOn] =
+    useState(false);
 
   const Row = ({ index, style }) => {
     const currReview = reviews[index];
     return (
       <div key={index} style={{ ...style }}>
-        <Review style={{ margin: "0px 50px" }} review={currReview} />{" "}
+        <Review
+          style={{ margin: "0px 50px" }}
+          review={currReview}
+          highlightBad={isHighlightBadReviewsOn}
+          highlightGood={isHighlightGoodReviewsOn}
+        />{" "}
       </div>
     );
   };
@@ -44,7 +53,6 @@ export default function ReviewsList() {
   };
 
   const filterReviews = async () => {
-    console.log(searchItem);
     if (!searchItem) {
       return;
     }
@@ -117,18 +125,23 @@ export default function ReviewsList() {
                 Reviews
               </chakra.span>
             </Text>
-            <Center mt={55} alignItems={"center"}>
-              <Input
-                placeholder="Search for Reviews"
-                size="lg"
-                values={searchItem}
-                onChange={onChangeSearchItem}
-                _focus={{ borderWidth: "2px", borderColor: "pink.400" }}
-                boxShadow={"lg"}
-              />
-              <Button onClick={filterReviews} mt={1} color="pink.300">
-                Search{" "}
-              </Button>
+            <Center mt={55} alignItems={"center"} onSubmit={filterReviews}>
+              <InputGroup>
+                <Input
+                  placeholder="Search for Reviews"
+                  size="lg"
+                  values={searchItem}
+                  onChange={onChangeSearchItem}
+                  _focus={{ borderWidth: "2px", borderColor: "pink.400" }}
+                  boxShadow={"lg"}
+                />
+
+                <InputRightElement width="4.5rem">
+                  <Button mt="0.4rem" size="sm" onClick={filterReviews}>
+                     <Search2Icon color='pink.400'/>
+                  </Button>
+                </InputRightElement>
+              </InputGroup>
             </Center>
             <Center margin={12}>
               <HStack spacing={8}>
@@ -144,7 +157,7 @@ export default function ReviewsList() {
                   colorScheme="pink"
                   rightIcon={<ArrowDownIcon />}
                 >
-                  Bad Reviews
+                  Critical Reviews
                 </Button>
               </HStack>
             </Center>
@@ -176,9 +189,28 @@ export default function ReviewsList() {
               >
                 Reviews
               </chakra.span>
-              <HStack>
-
-              </HStack>
+              <Stack direction={["column", "row"]} marginTop={4} spacing={6}>
+                <Checkbox
+                  isChecked={isHighlightBadReviewsOn}
+                  onChange={() =>
+                    setIsHighlightBadReviewsOn(!isHighlightBadReviewsOn)
+                  }
+                  size="lg"
+                  colorScheme="pink"
+                >
+                  <Text color='gray.600' size='md'>Highlight Critical Reviews</Text>
+                </Checkbox>
+                <Checkbox
+                  isChecked={isHighlightGoodReviewsOn}
+                  onChange={() =>
+                    setIsHighlightGoodReviewsOn(!isHighlightGoodReviewsOn)
+                  }
+                  size="lg"
+                  colorScheme="green"
+                >
+                  <Text color='gray.600' size='md'>Highlight Great Reviews</Text>
+                </Checkbox>
+              </Stack>
             </Box>
 
             <WindowScroller>

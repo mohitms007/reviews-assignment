@@ -17,16 +17,31 @@ import React from "react";
 import { StarIcon } from "@chakra-ui/icons";
 import formatDate from "../utilities/formatDate";
 
-export default function Review({ review }) {
+export default function Review({ review, highlightBad, highlightGood }) {
   const { reviewText, reviewerName, summary, reviewTime, overall } = review;
+
+
+  const hightlightReviews = () => {
+    if(highlightBad && review.overall <= 3){
+      return 'red.400'
+    }
+    if(highlightGood && review.overall >= 4){
+      return 'teal'
+    }
+
+    return 'white'
+  }
 
   return (
     <Box
       // maxW={'505px'}
       w={"full"}
       bg={useColorModeValue("white", "gray.900")}
-      boxShadow={"xl"}
-      rounded={"md"}
+      borderWidth='3px' 
+      borderRadius='lg'
+      borderColor={hightlightReviews}
+      boxShadow={"lg"}
+      rounded={"lg"}
       p={6}
       overflow={"hidden"}
     >
